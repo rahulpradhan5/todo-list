@@ -18,7 +18,15 @@ class HomeController extends Controller
 
     // add task
     public function addTask(Request $request)
-    {
+    { // Check if the task already exists for the authenticated user
+        $existingTask = todo_list::where('user_id', Auth::id())
+            ->where('task', $request->task)
+            ->first();
+
+        if ($existingTask) {
+            // Task already exists, return a message or handle it as needed
+            return 'Task already exists';
+        }
 
         $task =  todo_list::create([
             'task' => $request->task,

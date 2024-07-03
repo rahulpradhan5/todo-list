@@ -1,4 +1,4 @@
-var showall  = false;
+var showall = false;
 // add task
 function addTask() {
     var task = $("#taskInput").val();
@@ -27,6 +27,9 @@ function addTask() {
             $("#taskAddBtn").attr('disabled', false);
             if (data == 'Failed') {
                 $("#alert").removeClass("d-none").addClass("float-alert-danger").html("Adding task failed, Try again.").fadeIn();
+                hideAlert();
+            } else if (data == 'Task already exists') {
+                $("#alert").removeClass("d-none").addClass("float-alert-danger").html(data).fadeIn();
                 hideAlert();
             } else {
                 $("#taskInput").val('');
@@ -150,15 +153,15 @@ $(document).ready(function () {
 // show all
 function showAll(show) {
     var old = $("#tasks").html();
-    if(show == 1){
+    if (show == 1) {
         $("#showAll").addClass('d-none')
         $("#hideAll").removeClass('d-none')
-    }else{
+    } else {
         $("#hideAll").addClass('d-none')
         $("#showAll").removeClass('d-none')
     }
-   
-    showall =show;
+
+    showall = show;
     $.ajax({
         url: 'showAll',
         type: 'get',
